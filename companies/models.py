@@ -22,10 +22,10 @@ class TaskStatus(models.Model):
 
 class Tasks(models.Model):
     title = models.TextField()
-    description = models.TextField()
-    due_date = models.DateField()
+    description = models.TextField(null=True)
+    due_date = models.DateField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(null=True, auto_now=True)
     status = models.ForeignKey(TaskStatus, on_delete=models.CASCADE)
     enterprise = models.ForeignKey(Enterprise, on_delete=models.CASCADE)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
