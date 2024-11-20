@@ -26,6 +26,6 @@ class Signin(Base):
                 "user": serializer.data,
                 "enterprise": enterprise,
                 "refresh": str(token),
-                "access": str(token.access_token),
+                "access": str(token.access_token),  # type: ignore
             }
         )
