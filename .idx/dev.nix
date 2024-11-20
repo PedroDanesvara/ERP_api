@@ -5,6 +5,7 @@
   channel = "stable-24.05"; # or "unstable"
   services.docker.enable = true;
   services.mysql.enable = true;
+
   # Use https://search.nixos.org/packages to find packages
   packages = [
     # pkgs.go
@@ -21,13 +22,13 @@
     pkgs.python312Packages.mysqlclient
     pkgs.mariadb
     pkgs.gcc
+    pkgs.gh
   ];
 
   # Sets environment variables in the workspace
   env = {
-    MYSQLCLIENT_CFLAGS = "-I/usr/include/python3.12";
-    MYSQLCLIENT_LDFLAGS = "-L/usr/lib/mariadb -lmysqlclient";
-
+    # MYSQLCLIENT_CFLAGS = "-I/usr/include/python3.12";
+    # MYSQLCLIENT_LDFLAGS = "-L/usr/lib/mariadb -lmysqlclient";
   };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
