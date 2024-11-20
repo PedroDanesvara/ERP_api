@@ -87,13 +87,19 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+MYSQL_ROOT_PASSWORD = os.environ.get("MYSQL_ROOT_PASSWORD", "")
+MYSQL_DATABASE = os.environ.get("MYSQL_DATABASE", "")
+MYSQL_USER = os.environ.get("MYSQL_USER", "")
+MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD", "")
+MYSQL_PORT = os.environ.get("MYSQL_PORT", "")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'erp_system',
-        'USER': 'root',
-        'PASSWORD': '1010',
-        'PORT': 3306,
+        'NAME': MYSQL_DATABASE,
+        'USER': MYSQL_USER,
+        'PASSWORD': MYSQL_ROOT_PASSWORD,
+        'PORT': MYSQL_PORT,
     }
 }
 
