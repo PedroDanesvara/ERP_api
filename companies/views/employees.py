@@ -1,6 +1,6 @@
 from django.db.models.manager import BaseManager
 from companies.views.base import Base
-from companies.utils.permissions import EmployeePermission, GroupPermission
+from companies.utils.permissions import EmployeePermission
 from companies.models import Employee, Enterprise
 from companies.serializers import EmployeeSerializer, EmployeesSerializer
 
