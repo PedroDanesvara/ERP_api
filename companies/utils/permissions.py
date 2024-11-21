@@ -1,5 +1,4 @@
 from typing import Any
-from django.db.models.query import ValuesQuerySet
 from rest_framework import permissions
 
 from accounts.models import User_Groups, Group_Permissions
@@ -23,12 +22,12 @@ def check_permission(user, method, permission_to: str) -> bool:
     elif method == "DELETE":
         required_permission = "delete_" + permission_to
 
-    groups: ValuesQuerySet[User_Groups, dict[str, Any]] = (
+    groups = (
         User_Groups.objects.values("group_id").filter(user_id=user.id).all()
     )
 
     for group in groups:
-        permissions: ValuesQuerySet[Group_Permissions, dict[str, Any]] = (
+        permissions = (
             Group_Permissions.objects.values("permission_id")
             .filter(group_id=group["group_id"])
             .all()
