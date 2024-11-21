@@ -1,3 +1,4 @@
+from django.db.models.manager import BaseManager
 from companies.views.base import Base
 from companies.utils.permissions import EmployeePermission, GroupPermission
 from companies.models import Employee, Enterprise
@@ -11,14 +12,15 @@ from rest_framework.exceptions import APIException
 
 
 class Employees(Base):
-    permission_classes = [EmployeePermission]
+    permission_classes: list[type[EmployeePermission]] = [EmployeePermission]
 
-    def get(self, request):
-        enterprise_id = self.get_enterprise_id(request.user.id)
+    def get(self, request) -> Response:
+        
+        enterprise_id: int = self.get_enterprise_id(request.user.id)
 
         owner_id = Enterprise.objects.values("user_id").filter(id=enterprise_id).first()["user_id"]  # type: ignore
 
-        employees = (
+        employees: BaseManager[Employee] = (
             Employee.objects.filter(enterprise_id=enterprise_id)
             .exclude(user_id=owner_id)
             .all()
@@ -28,7 +30,7 @@ class Employees(Base):
 
         return Response({"employees": serializer.data})
 
-    def post(self, request):
+    def post(self, request) -> Response:
         name = request.data.get("name")
         email = request.data.get("email")
         password = request.data.get("password")
@@ -37,7 +39,7 @@ class Employees(Base):
 
         auth = Authentication()
 
-        signup_user = auth.signup(
+        signup_user: User = auth.signup(
             name=name,
             email=email,
             password=password,
@@ -52,19 +54,19 @@ class Employees(Base):
 
 
 class EmployeeDetail(Base):
-    permission_classes = [EmployeePermission]
+    permission_classes: list[type[EmployeePermission]] = [EmployeePermission]
 
-    def get(self, request, employee_id):
-        employee = self.get_employee(employee_id, request.user.id)
+    def get(self, request, employee_id) -> Response:
+        employee: Employee = self.get_employee(employee_id, request.user.id)
 
         serializer = EmployeeSerializer(employee)
 
         return Response(serializer.data)
 
-    def put(self, request, employee_id):
+    def put(self, request, employee_id) -> Response:
         groups = request.data.get("groups")
 
-        employee = self.get_employee(employee_id, request.user.id)
+        employee: Employee = self.get_employee(employee_id, request.user.id)
 
         name = request.data.get("name") or employee.user.name
         email = request.data.get("email") or employee.user.email
@@ -85,10 +87,10 @@ class EmployeeDetail(Base):
 
         return Response({"success": True})
 
-    def delete(self, request, employee_id):
-        employee = self.get_employee(employee_id, request.user.id)
+    def delete(self, request, employee_id) -> Response:
+        employee: Employee = self.get_employee(employee_id, request.user.id)
 
-        check_if_owner = User.objects.filter(id=employee.user.id, is_owner=True).first()
+        check_if_owner: User | None = User.objects.filter(id=employee.user.id, is_owner=True).first()
 
         if check_if_owner:
             raise APIException(
