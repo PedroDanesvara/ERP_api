@@ -15,7 +15,7 @@ class Employees(Base):
     permission_classes: list[type[EmployeePermission]] = [EmployeePermission]
 
     def get(self, request) -> Response:
-        
+
         enterprise_id: int = self.get_enterprise_id(request.user.id)
 
         owner_id = Enterprise.objects.values("user_id").filter(id=enterprise_id).first()["user_id"]  # type: ignore
@@ -90,7 +90,9 @@ class EmployeeDetail(Base):
     def delete(self, request, employee_id) -> Response:
         employee: Employee = self.get_employee(employee_id, request.user.id)
 
-        check_if_owner: User | None = User.objects.filter(id=employee.user.id, is_owner=True).first()
+        check_if_owner: User | None = User.objects.filter(
+            id=employee.user.id, is_owner=True
+        ).first()
 
         if check_if_owner:
             raise APIException(
