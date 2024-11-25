@@ -22,9 +22,7 @@ def check_permission(user, method, permission_to: str) -> bool:
     elif method == "DELETE":
         required_permission = "delete_" + permission_to
 
-    groups = (
-        User_Groups.objects.values("group_id").filter(user_id=user.id).all()
-    )
+    groups = User_Groups.objects.values("group_id").filter(user_id=user.id).all()
 
     for group in groups:
         permissions = (
