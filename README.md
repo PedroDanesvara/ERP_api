@@ -8,6 +8,9 @@ Repository referring to an ERP API built in Python using DjangoREST as a framewo
 Run the project with Python
 
 ```bash
+  python -m venv venv
+  .\venv\Scripts\activate
+  pip install -R requirements.txt
   py manage.py runserver
 ```
     
@@ -93,9 +96,9 @@ Run the project with Python
 | Parameter   | Type       | Description                           |
 | :---------- | :--------- | :---------------------------------- |
 | `id` | `number` | **Required**. employee ID |
-| `groups` | `string` | **Opcional**. String with a list of ids of different groups |
-| `name` | `string` | **Opcional** |
-| `email` | `string` | **Opcional** |
+| `groups` | `string` | **Optional**. String with a list of ids of different groups |
+| `name` | `string` | **Optional** |
+| `email` | `string` | **Optional** |
 
 #### Employees - Delete An Employee - (_Authentication Required_)
 
@@ -145,8 +148,8 @@ Run the project with Python
 | Parameter   | Type       | Description                           |
 | :---------- | :--------- | :---------------------------------- |
 | `id` | `number` | **Required**. group ID |
-| `name` | `string` | **Opcional** | 
-| `permissions` | `string` | **Opcional**. String com uma lista de ids de diversas permissões |
+| `name` | `string` | **Optional** | 
+| `permissions` | `string` | **Optional**. list of permissions IDs |
 
 #### Groups / Roles - Delete a Group - (_ Authentication Required _)
 
@@ -183,8 +186,8 @@ Run the project with Python
 | `employee_id` | `number` | **Required**. employee ID | 
 | `status_id` | `number` | **Required**. taks status ID |
 | `title` | `string` | **Required** |
-| `description` | `string` | **Opcional** |
-| `due_date` | `date` | **Opcional**. Date in the format: d/m/Y H:M |
+| `description` | `string` | **Optional** |
+| `due_date` | `date` | **Optional**. Date in the format: d/m/Y H:M |
 
 #### Tasks - Get A Task - (_Authentication Required_)
 
@@ -205,11 +208,11 @@ Run the project with Python
 | Parameter   | Type       | Description                           |
 | :---------- | :--------- | :---------------------------------- |
 | `id` | `number` | **Required**. task ID |
-| `employee_id` | `number` | **Opcional**. employee ID | 
-| `status_id` | `number` | **Opcional**. taks status ID |
-| `title` | `string` | **Opcional** |
-| `description` | `string` | **Opcional** |
-| `due_date` | `date` | **Opcional**. Date in the format: d/m/Y H:M |
+| `employee_id` | `number` | **Optional**. employee ID | 
+| `status_id` | `number` | **Optional**. taks status ID |
+| `title` | `string` | **Optional** |
+| `description` | `string` | **Optional** |
+| `due_date` | `date` | **Optional**. Date in the format: d/m/Y H:M |
 
 #### Tasks - Delete a Task - (_Authentication Required_)
 
