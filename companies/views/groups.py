@@ -61,37 +61,42 @@ class Groups(Base):
             raise APIException("Envie as permissões no padrão correto")
 
         return Response({"success": True})
-    
+
+
 class GroupDetail(Base):
     permission_classes: list[type[GroupPermission]] = [GroupPermission]
 
     def get(self, request, group_id) -> Response:
         enterprise_id: int = self.get_enterprise_id(request.user.id)
-        
+
         self.get_group(group_id, enterprise_id)
-        
-        group: Group | None = Group.objects.filter(id=group_id, enterprise_id=enterprise_id).first()
-        
+
+        group: Group | None = Group.objects.filter(
+            id=group_id, enterprise_id=enterprise_id
+        ).first()
+
         serializer = GroupsSerializer(group)
-        
+
         return Response({"group": serializer.data})
-    
+
     def put(self, request, group_id) -> Response:
         enterprise_id: int = self.get_enterprise_id(request.user.id)
-        
+
         self.get_group(group_id, enterprise_id)
-        
+
         name = request.data.get("name")
         permissions = request.data.get("permissions")
-        
+
         if name:
-            Group.objects.filter(id=group_id, enterprise_id=enterprise_id).update(name=name)
-        
+            Group.objects.filter(id=group_id, enterprise_id=enterprise_id).update(
+                name=name
+            )
+
         Group_Permissions.objects.filter(group_id=group_id).delete()
-        
+
         if permissions:
             permissions = permissions.split(",")
-            
+
             try:
                 for item in permissions:
                     permission: bool = Permission.objects.filter(id=item).exists()
@@ -104,18 +109,18 @@ class GroupDetail(Base):
                     ).exists():
                         Group_Permissions.objects.create(
                             group_id=group_id, permission_id=item
-                    )
-                        
+                        )
+
             except ValueError:
                 raise APIException("Envie as permissões no padrão correto")
-        
+
         return Response({"success": True})
-    
-    def delete(self, request, group_id) -> Response:    
+
+    def delete(self, request, group_id) -> Response:
         enterprise_id: int = self.get_enterprise_id(request.user.id)
-        
+
         self.get_group(group_id, enterprise_id)
-        
+
         Group.objects.filter(id=group_id, enterprise_id=enterprise_id).delete()
-        
+
         return Response({"success": True})
