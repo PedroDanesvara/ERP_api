@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from companies.models import Employee, Tasks
+from companies.models import Employee, Task
 from accounts.models import User, User_Groups, Group, Group_Permissions
 
 from django.contrib.auth.models import Permission
@@ -79,7 +79,7 @@ class TasksSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
 
     class Meta:
-        model = Tasks
+        model = Task
         fields = ("id", "title", "description", "due_date", "created_at", "status")
 
     def get_status(self, obj):
@@ -91,7 +91,7 @@ class TaskSerializer(serializers.ModelSerializer):
     employee = serializers.SerializerMethodField()
 
     class Meta:
-        model = Tasks
+        model = Task
         fields = (
             "id",
             "title",

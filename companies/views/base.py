@@ -7,7 +7,7 @@ from companies.utils.exceptions import (
     NotFoundTask,
     NotFoundTaskStatus,
 )
-from companies.models import Employee, Enterprise, Tasks, TaskStatus
+from companies.models import Employee, Enterprise, Task, TaskStatus
 
 from accounts.models import Group
 
@@ -56,8 +56,8 @@ class Base(APIView):
 
         return status
 
-    def get_task(self, task_id, enterprise_id) -> Tasks:
-        task: Tasks | None = Tasks.objects.filter(
+    def get_task(self, task_id, enterprise_id) -> Task:
+        task: Task | None = Task.objects.filter(
             id=task_id, enterprise_id=enterprise_id
         ).first()
 

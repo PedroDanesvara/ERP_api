@@ -8,11 +8,13 @@ class Enterprise(models.Model):
 
 
 class Employee(models.Model):
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
     enterprise = models.ForeignKey(Enterprise, on_delete=models.CASCADE)
 
 
 class TaskStatus(models.Model):
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=155)
     codename = models.CharField(max_length=100)
 
@@ -20,7 +22,7 @@ class TaskStatus(models.Model):
         db_table = "companies_task_status"
 
 
-class Tasks(models.Model):
+class Task(models.Model):
     title = models.TextField()
     description = models.TextField(null=True)
     due_date = models.DateField(null=True)
