@@ -12,7 +12,7 @@ class PermissionDetail(Base):
 
     def get(self, request):
         permissions = Permission.objects.filter(
-            content_type_id__in=[2, 9, 11, 12]
+            content_type_id__in=[2, 3, 11, 12]
         ).all()
 
         serializer = PermissionSerializer(permissions, many=True)
