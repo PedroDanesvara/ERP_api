@@ -28,9 +28,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost").split(',')
+
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "http://localhost").split(',')
 
 
 # Application definition
@@ -80,10 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-# Config cors headers
-CORS_ALLOW_ALL_ORIGINS = True
-
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -92,10 +90,12 @@ MYSQL_DATABASE = os.environ.get("MYSQL_DATABASE", "")
 MYSQL_USER = os.environ.get("MYSQL_USER", "")
 MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD", "")
 MYSQL_PORT = os.environ.get("MYSQL_PORT", "")
+MYSQL_HOST = os.environ.get("MYSQL_HOST", "")
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
+        "HOST": MYSQL_HOST,
         "NAME": MYSQL_DATABASE,
         "USER": MYSQL_USER,
         "PASSWORD": MYSQL_ROOT_PASSWORD,
@@ -140,6 +140,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
