@@ -6,6 +6,8 @@
 *.pot
 *.pyc
 __pycache__/
+/.mypy_cache
+/.vscode
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
